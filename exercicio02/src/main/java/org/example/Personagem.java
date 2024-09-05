@@ -12,13 +12,13 @@ package org.example;
 
 public class Personagem {
     public String nome;
-    public Integer vida = 100;
+    public Integer vida;
 
     public void receberDano(Integer dano) {
         this.vida -= dano;
         if (this.vida <= 0) {
             this.vida = 0;
-            System.out.println("Inimigo derrotado!");
+            System.out.println(this.vida + " derrotado!");
         }
     }
 

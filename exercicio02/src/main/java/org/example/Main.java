@@ -1,5 +1,10 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 /**
  Crie uma classe chamada Personagem que implemente os atributos nome, vida e ataque, além de dos métodos receberDano e atacar;
 
@@ -20,9 +25,34 @@ package org.example;
 
 public class Main {
     public static void main(String[] args) {
+        Personagem jogador = new Personagem();
+        jogador.nome = "Steve";
+        jogador.vida = 100;
 
-        for (int i = 1; i <= 5; i++) {
-            System.out.println("i = " + i);
+        Personagem inimigo = new Personagem();
+        inimigo.nome = "Zombie";
+        inimigo.vida = 50;
+
+        Personagem creeper = new Creeper();
+        creeper.nome = "Creeper";
+        creeper.vida = 30;
+
+        List<Personagem> inimigosAlvos = Arrays.asList(inimigo, creeper);
+
+        while (true) {
+          Random random = new Random();
+
+          Integer alvo = random.nextInt(1, 2);
+
+          jogador.atacar(inimigosAlvos.get(alvo));
+
+          inimigosAlvos.forEach(inimigos -> inimigos.atacar(jogador));
+
+          break;
         }
+
+        System.out.println("Jogador: " + jogador.vida);
+        System.out.println("Zombie: " + inimigo.vida);
+        System.out.println("Creeper: " + creeper.vida);
     }
 }
