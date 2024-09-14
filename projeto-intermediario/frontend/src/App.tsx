@@ -1,8 +1,10 @@
 import './style/App.ts'
 
-export default function App() {
+function App() {
   return (
     <>
     </>
   )
 }
+
+export default App
