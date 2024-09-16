@@ -1,7 +1,7 @@
 import { colors } from '@/app/styles/colors/colors'
 import styled from 'styled-components'
 
-export const Title = styled.h1`
+export const TitleH1 = styled.h1`
   display: flex;
   align-items: center;
   justify-content: center;
