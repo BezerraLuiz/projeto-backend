@@ -13,7 +13,7 @@ export const ButtonForm = styled.button`
   font-weight: bold;
   color: #fff;
 
-  transition: 1s ease-in-out;
+  transition: 0.5s ease-in-out;
   cursor: pointer;
 
   &:hover {
