@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { colors } from "../styles/colors/colors";
+import { colors } from "../../styles/colors/colors";
 
 interface ErrorBoxProps {
   visible: boolean;
 }
 
 export const ErrorBox = styled.section<ErrorBoxProps>`
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,3 +34,14 @@ export const ErrorBox = styled.section<ErrorBoxProps>`
     line-height: 1.4;
   }
 `
+
+// <ErrorBox visible={!!error}>
+//         <Image
+//           src="/assets/warning.png"
+//           alt="Imagem Erro"
+//           width={100}
+//           height={100}
+//         />
+
+//         {error && <p>{error}</p>}
+//       </ErrorBox>

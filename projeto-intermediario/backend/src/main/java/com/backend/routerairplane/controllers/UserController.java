@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/user")
 @CrossOrigin(origins = "*") // permitindo acesso do front ao back
 public class UserController {
 
@@ -25,5 +25,19 @@ public class UserController {
         String senha = user.getSenha();
 
         return userService.verifyUser(email, senha);
+    }
+
+    @GetMapping("/id")
+    public ResponseEntity<ApiResponse> userId(@RequestParam String email) {
+        return userService.idUser(email);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<ApiResponse> userCreate(@RequestBody User user) {
+        String nome = user.getNome();
+        String email = user.getEmail();
+        String senha = user.getSenha();
+
+        return userService.createUser(nome, email, senha);
     }
 }

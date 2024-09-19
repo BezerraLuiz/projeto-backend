@@ -1,4 +1,3 @@
-import { colors } from '@/app/styles/colors/colors'
 import styled from 'styled-components'
 
 export const TitleH1 = styled.h1`
@@ -9,6 +8,4 @@ export const TitleH1 = styled.h1`
   
   font-size: 3em;
   color: #fff;
-  -webkit-text-stroke-width: 2px; /* largura da borda */
-  -webkit-text-stroke-color: ${colors.primary}; /* cor da borda */
 `

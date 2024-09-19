@@ -3,26 +3,27 @@ interface Response {
   success: string;
 }
 
-export const login = async (
+export const register = async (
+  nome: string,
   email: string,
   senha: string
 ): Promise<Response> => {
   try {
-    const response = await fetch("http://localhost:8080/user/verify", {
+    const response = await fetch("http://localhost:8080/user/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, senha }),
+      body: JSON.stringify({ nome, email, senha }),
     });
 
     if (response.ok) {
       const data = await response.json();
       return data;
     } else {
-      return { message: "Credenciais inválidas!", success: "false" };
+      return { message: "Usuário já existente", success: "false" };
     }
   } catch (error) {
-    return { message: "Erro ao fazer login. Tente novamente mais tarde!", success: "false" };
+    return { message: "Não foi possível criar o usuário!" + error, success: "false" };
   }
 };
