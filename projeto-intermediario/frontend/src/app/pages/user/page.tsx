@@ -7,7 +7,7 @@ export default function User() {
     <>
       <Background>
         <ContainerMain>
-
+          
         </ContainerMain>
       </Background>
     </>
