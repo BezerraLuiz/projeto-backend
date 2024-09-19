@@ -1,2 +1,2 @@
-Client Components -> import 'use-client'
-Server Components -> import 'server-only'
+Client Components -> npm iuse-client
+React Icons -> npm i react-icons
