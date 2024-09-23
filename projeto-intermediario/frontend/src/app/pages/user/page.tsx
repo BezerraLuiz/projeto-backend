@@ -8,7 +8,6 @@ import {
   DivInfosUser,
 } from "./style";
 import Image from "next/image";
-import { ButtonForm } from "@/app/components/ui/buttons";
 
 export default function User() {
   return (
@@ -41,7 +40,7 @@ export default function User() {
               </div>
             </DivInfosUser>
 
-            
+
           </ContainerUser>
         </ContainerMain>
       </Background>
