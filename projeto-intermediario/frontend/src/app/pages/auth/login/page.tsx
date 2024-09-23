@@ -118,7 +118,7 @@ export default function Login() {
                 >
                   <LabelInput>E-mail</LabelInput>
                   <InputText
-                    type="text"
+                    type="email"
                     placeholder="@mail.com"
                     autoComplete="off"
                     value={email}

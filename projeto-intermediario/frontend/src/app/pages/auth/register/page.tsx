@@ -96,7 +96,7 @@ export default function Register() {
                 >
                   <LabelInput>E-mail</LabelInput>
                   <InputText
-                    type="text"
+                    type="email"
                     placeholder="@mail.com"
                     autoComplete="off"
                     value={email}

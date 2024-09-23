@@ -1,4 +1,4 @@
-import { colors } from "@/app/styles/colors/colors";
+import { colors } from "@/app/styles/colors";
 import styled from "styled-components";
 
 export const Background = styled.body`
@@ -15,7 +15,22 @@ export const ContainerMain = styled.div`
 `;
 
 export const ContainerUser = styled.section`
-  width: 2rem;
-  height: 2rem;
+  display: flex;
+	
+	width: 60rem;
+  height: 40rem;
+	
   border: 1px solid #fff;
+	border-radius: 20px;
+`;
+
+export const DivInfosUser = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 5%;
+	
+	margin: 5%;
+
+	color: ${colors.text};
+	font-size: 1.2em;
 `;

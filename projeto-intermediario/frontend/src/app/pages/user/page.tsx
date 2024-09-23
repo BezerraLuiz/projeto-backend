@@ -1,22 +1,57 @@
-'use client'
+"use client";
 
-import { Background, ContainerMain } from './style'
+import { InputText, InputFile } from "@/app/components/ui/inputs";
+import {
+  Background,
+  ContainerMain,
+  ContainerUser,
+  DivInfosUser,
+} from "./style";
+import Image from "next/image";
+import { ButtonForm } from "@/app/components/ui/buttons";
 
 export default function User() {
   return (
     <>
       <Background>
         <ContainerMain>
-          
+          <ContainerUser>
+            <Image
+              src={"/assets/user.png"}
+              alt="Image User"
+              width={200}
+              height={200}
+              style={{ margin: "2.5%" }}
+            />
+
+            <DivInfosUser>
+              <div style={{ display: "flex", flexDirection: "column"}}>
+                Nome
+                <InputText type="text" />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column"}}>
+                E-mail
+                <InputText type="email" />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column"}}>
+                Foto do Perfil
+                <InputFile type="file" />
+              </div>
+            </DivInfosUser>
+
+            
+          </ContainerUser>
         </ContainerMain>
       </Background>
     </>
-  )
+  );
 }
 
 // Para salvar a foto de perfil:
 
-// Frontend: No formulário de perfil, crie um campo de upload de arquivo (input type="file"). 
+// Frontend: No formulário de perfil, crie um campo de upload de arquivo (input type="file").
 // Ao enviar, utilize `FormData` para enviar a imagem para o backend.
 
 // Backend:
