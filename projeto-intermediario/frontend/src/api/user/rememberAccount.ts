@@ -6,7 +6,7 @@ interface Response {
 export const rememberAccount = async (email: string): Promise<Response> => {
   try {
     const response = await fetch(
-      `http://localhost:8080/user/id?email=${email}`, {
+      `http://localhost:8080/user/email?email=${email}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

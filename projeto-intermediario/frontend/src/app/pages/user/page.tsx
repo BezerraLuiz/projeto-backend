@@ -8,8 +8,52 @@ import {
   DivInfosUser,
 } from "./style";
 import Image from "next/image";
+import { Button, ButtonCancel } from "@/app/components/ui/buttons";
+import { useEffect, useState } from "react";
+import { viewuser } from "@/api/user/viewuser";
+import { CiEdit } from "react-icons/ci";
+import { useRouter } from "next/navigation";
+import { updateuser } from "@/api/user/updateuser";
 
 export default function User() {
+  const [user, setUser] = useState({ id: "", nome: "", email: "", senha: "" });
+  const [isDisabled, setIsDisabled] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const account = sessionStorage.getItem("rememberAccount");
+
+      if (account) {
+        const response = await viewuser(account);
+
+        const [id, nome, email, senha] = response.message.split(" | ");
+        setUser({ id, nome, email, senha });
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleEdit = () => {
+    setIsDisabled(false);
+  };
+
+  const updateUser = async () => {
+    const response = await updateuser(user.nome, user.email, user.senha)
+    
+    if (response.success) router.push("/")
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+  };
+
+  const cancel = () => {
+    router.push("/");
+  };
+
   return (
     <>
       <Background>
@@ -24,41 +68,83 @@ export default function User() {
             />
 
             <DivInfosUser>
-              <div style={{ display: "flex", flexDirection: "column"}}>
-                Nome
-                <InputText type="text" />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  Nome
+                  <InputText
+                    type="text"
+                    name="nome"
+                    value={user.nome}
+                    disabled={isDisabled}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <section
+                  style={{ display: "flex", alignItems: "center" }}
+                  onClick={handleEdit}
+                >
+                  <CiEdit
+                    style={{
+                      fontSize: "22.5px",
+                      margin: "1%",
+                      cursor: "pointer",
+                    }}
+                  />
+                </section>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column"}}>
-                E-mail
-                <InputText type="email" />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  E-mail
+                  <InputText type="email" name="email" value={user.email} disabled onChange={handleChange} />
+                </div>
+
+                <section
+                  style={{ display: "flex", alignItems: "center" }}
+                  onClick={handleEdit}
+                >
+                  <CiEdit style={{ fontSize: "22.5px", margin: "1%" }} />
+                </section>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column"}}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  Senha
+                  <InputText type="password" name="senha" value={user.senha} disabled onChange={handleChange}/>
+                </div>
+
+                <section
+                  style={{ display: "flex", alignItems: "center" }}
+                  onClick={handleEdit}
+                >
+                  <CiEdit style={{ fontSize: "22.5px", margin: "1%" }} />
+                </section>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column" }}>
                 Foto do Perfil
                 <InputFile type="file" />
               </div>
             </DivInfosUser>
 
-
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "10px",
+                position: "fixed",
+                bottom: "20%",
+                right: "26%",
+              }}
+            >
+              <ButtonCancel onClick={cancel}>Cancelar</ButtonCancel>
+              <Button onClick={updateUser}>Salvar Alterações</Button>
+            </div>
           </ContainerUser>
         </ContainerMain>
       </Background>
     </>
   );
 }
-
-// Para salvar a foto de perfil:
-
-// Frontend: No formulário de perfil, crie um campo de upload de arquivo (input type="file").
-// Ao enviar, utilize `FormData` para enviar a imagem para o backend.
-
-// Backend:
-//    - Crie um endpoint no Spring Boot para receber o arquivo (multipart/form-data).
-//    - Utilize a classe `MultipartFile` para processar o upload da imagem.
-//    - Armazene o arquivo em um diretório no servidor ou em um serviço de armazenamento externo (como Amazon S3).
-//    - Salve o URL ou caminho da imagem no banco de dados (PostgreSQL).
-
-// 3. Banco de Dados: No PostgreSQL, crie uma coluna na tabela de usuários para armazenar o URL da imagem.
-
-// Com isso, o React envia a imagem para o Spring, que armazena e salva o caminho da foto no banco.

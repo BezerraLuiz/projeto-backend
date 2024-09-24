@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors } from "@/app/styles/colors/colors";
+import { colors } from "@/app/styles/colors";
 
 export const ContainerDivisor = styled.div`
   display: flex;

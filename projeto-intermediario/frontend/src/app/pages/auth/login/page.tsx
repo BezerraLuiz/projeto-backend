@@ -9,14 +9,14 @@ import { ButtonForm } from "../../../components/ui/buttons";
 import { ErrorBox } from "../../../components/error/error";
 import Image from "next/image";
 import Link from "next/link";
-import { login } from "@/api/login";
-import { rememberAccount } from "@/api/rememberAccount";
+import { login } from "@/api/user/login";
+import { rememberAccount } from "@/api/user/rememberAccount";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [emailSearch, setEmailSearch] = useState("");
+  const [senhaSearch, setSenhaSearch] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -26,7 +26,7 @@ export default function Login() {
 
   // login user
   const handleLogin = async () => {
-    const response = await login(email, senha);
+    const response = await login(emailSearch, senhaSearch);
 
     if (response.success == "false") {
       setError(response.message);
@@ -48,8 +48,8 @@ export default function Login() {
       return localStorage.removeItem("rememberAccount");
     }
 
-    const response = await rememberAccount(email.toLowerCase()); // pegar id no backend
-
+    const response = await rememberAccount(emailSearch.toLowerCase()); // pegar id no backend
+    
     if (response.success == "false") {
       setError(response.message);
 
@@ -57,9 +57,10 @@ export default function Login() {
         setError("");
       }, 3000);
     } else {
-      const userId = response.message;
+      const [id] = response.message.split(' | ')
 
-      localStorage.setItem("rememberAccount", userId);
+      sessionStorage.setItem("rememberAccount", id);
+      localStorage.setItem("rememberAccount", id);
     }
   };
 
@@ -121,8 +122,8 @@ export default function Login() {
                     type="email"
                     placeholder="@mail.com"
                     autoComplete="off"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={emailSearch}
+                    onChange={(e) => setEmailSearch(e.target.value)}
                   />
                 </div>
 
@@ -139,8 +140,8 @@ export default function Login() {
                     type="password"
                     autoComplete="off"
                     required
-                    value={senha}
-                    onChange={(e) => setSenha(e.target.value)}
+                    value={senhaSearch}
+                    onChange={(e) => setSenhaSearch(e.target.value)}
                   />
                 </div>
 

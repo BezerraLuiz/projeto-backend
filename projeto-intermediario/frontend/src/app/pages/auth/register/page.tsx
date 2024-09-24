@@ -8,7 +8,7 @@ import { InputText } from "@/app/components/ui/inputs";
 import { useState } from "react";
 import { Divisor } from "@/app/components/ui/divisor";
 import { Footer } from "@/app/components/footer/footer";
-import { register } from "@/api/register";
+import { register } from "@/api/user/register";
 import { ErrorBox } from "@/app/components/error/error";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
