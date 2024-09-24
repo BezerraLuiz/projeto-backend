@@ -36,6 +36,11 @@ export default function Login() {
       }, 3000);
     } else {
       setError("");
+
+      const responseId = await rememberAccount(emailSearch);
+      const [id] = responseId.message.split(' | ')
+
+      sessionStorage.setItem("rememberAccount", id);
       router.push("/");
     }
   };
@@ -48,7 +53,7 @@ export default function Login() {
       return localStorage.removeItem("rememberAccount");
     }
 
-    const response = await rememberAccount(emailSearch.toLowerCase()); // pegar id no backend
+    const response = await rememberAccount(emailSearch); // pegar id no backend
     
     if (response.success == "false") {
       setError(response.message);
@@ -59,7 +64,6 @@ export default function Login() {
     } else {
       const [id] = response.message.split(' | ')
 
-      sessionStorage.setItem("rememberAccount", id);
       localStorage.setItem("rememberAccount", id);
     }
   };

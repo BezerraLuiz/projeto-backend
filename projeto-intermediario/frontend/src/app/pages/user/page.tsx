@@ -29,6 +29,8 @@ export default function User() {
 
         const [id, nome, email, senha] = response.message.split(" | ");
         setUser({ id, nome, email, senha });
+      } else {
+        router.push("/pages/auth/login");
       }
     };
 
@@ -40,10 +42,10 @@ export default function User() {
   };
 
   const updateUser = async () => {
-    const response = await updateuser(user.nome, user.email, user.senha)
-    
-    if (response.success) router.push("/")
-  }
+    const response = await updateuser(user.nome, user.email, user.senha);
+
+    if (response.success) router.push("/");
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -97,7 +99,13 @@ export default function User() {
               <div style={{ display: "flex", alignItems: "center" }}>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   E-mail
-                  <InputText type="email" name="email" value={user.email} disabled onChange={handleChange} />
+                  <InputText
+                    type="email"
+                    name="email"
+                    value={user.email}
+                    disabled
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <section
@@ -111,7 +119,13 @@ export default function User() {
               <div style={{ display: "flex", alignItems: "center" }}>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   Senha
-                  <InputText type="password" name="senha" value={user.senha} disabled onChange={handleChange}/>
+                  <InputText
+                    type="password"
+                    name="senha"
+                    value={user.senha}
+                    disabled
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <section

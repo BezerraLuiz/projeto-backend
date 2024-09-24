@@ -5,8 +5,17 @@ import { Header } from "./components/header/header";
 import { SearchBar } from "./components/ui/searchbar";
 import { IoIosSearch } from "react-icons/io";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Home() {
+
+  useEffect(() => {
+    if (localStorage.length == 2) {
+      const account = localStorage.getItem("rememberAccount")
+      
+      if (account) sessionStorage.setItem("rememberAccount", account);
+    } 
+  }, [])
 
   return (
     <Header>
