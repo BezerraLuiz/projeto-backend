@@ -17,7 +17,11 @@ import { updateuser } from "@/api/user/updateuser";
 
 export default function User() {
   const [user, setUser] = useState({ id: "", nome: "", email: "", senha: "" });
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabled, setIsDisabled] = useState({
+    nome: true,
+    email: true,
+    senha: true,
+  });
   const router = useRouter();
 
   useEffect(() => {
@@ -37,8 +41,11 @@ export default function User() {
     fetchUser();
   }, []);
 
-  const handleEdit = () => {
-    setIsDisabled(false);
+  const handleEdit = (field: string) => {
+    setIsDisabled((prevState) => ({
+      ...prevState,
+      [field]: false,
+    }));
   };
 
   const updateUser = async () => {
@@ -77,14 +84,14 @@ export default function User() {
                     type="text"
                     name="nome"
                     value={user.nome}
-                    disabled={isDisabled}
+                    disabled={isDisabled.nome}
                     onChange={handleChange}
                   />
                 </div>
 
                 <section
                   style={{ display: "flex", alignItems: "center" }}
-                  onClick={handleEdit}
+                  onClick={() => handleEdit("nome")}
                 >
                   <CiEdit
                     style={{
@@ -103,14 +110,14 @@ export default function User() {
                     type="email"
                     name="email"
                     value={user.email}
-                    disabled
+                    disabled={isDisabled.email}
                     onChange={handleChange}
                   />
                 </div>
 
                 <section
                   style={{ display: "flex", alignItems: "center" }}
-                  onClick={handleEdit}
+                  onClick={() => handleEdit("email")}
                 >
                   <CiEdit style={{ fontSize: "22.5px", margin: "1%" }} />
                 </section>
@@ -123,14 +130,14 @@ export default function User() {
                     type="password"
                     name="senha"
                     value={user.senha}
-                    disabled
+                    disabled={isDisabled.senha}
                     onChange={handleChange}
                   />
                 </div>
 
                 <section
                   style={{ display: "flex", alignItems: "center" }}
-                  onClick={handleEdit}
+                  onClick={() => handleEdit("senha")}
                 >
                   <CiEdit style={{ fontSize: "22.5px", margin: "1%" }} />
                 </section>
