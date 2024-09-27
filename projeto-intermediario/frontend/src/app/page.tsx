@@ -7,8 +7,11 @@ import { IoIosSearch } from "react-icons/io";
 import Link from "next/link";
 import { useEffect } from "react";
 import { ButtonCreateTravel } from "./components/ui/buttons";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter()
+
   useEffect(() => {
     if (localStorage.length == 2) {
       const account = localStorage.getItem("rememberAccount");
@@ -16,6 +19,10 @@ export default function Home() {
       if (account) sessionStorage.setItem("rememberAccount", account);
     }
   }, []);
+
+  const createTravel = () => {
+    router.push("/pages/travel/create")
+  };
 
   return (
     <>
@@ -57,6 +64,7 @@ export default function Home() {
         }}
       >
         <ButtonCreateTravel
+          onClick={createTravel}
           style={{
             display: "flex",
             justifyContent: "center",

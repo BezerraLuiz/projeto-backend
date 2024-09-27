@@ -43,9 +43,19 @@ export default function IniciarViagem() {
       return parseFloat(valor.replace("R$", "").replace(/\./g, "").replace(",", "."));
     };
 
+    const convertToDate = (data: string) => {
+      for (let i = 0; i < 2; i++) {
+        data = data.replace("/", "-")
+      }
+      return data;
+    };
+
     const valorPassagemNum = convertToNumber(valorPassagem);
     const valorHospedagemNum = convertToNumber(valorHospedagem);
     const valorConsumoNum = convertToNumber(valorConsumo);
+
+    const dataInicioConvert = convertToDate(dataInicio); 
+    const dataFimConvert = convertToDate(dataFim); 
 
     const valorTotalCalculado = valorPassagemNum + valorHospedagemNum + valorConsumoNum;
     setValorTotal('R$ ' + valorTotalCalculado.toFixed(2));
@@ -60,8 +70,8 @@ export default function IniciarViagem() {
           idUser: idUser,
           localViagem: localViagem,
           localHospedagem: localHospedagem,
-          dataInicio: dataInicio,
-          dataFim: dataFim,
+          dataInicio: dataInicioConvert,
+          dataFim: dataFimConvert,
           valorPassagem: valorPassagemNum,
           valorHospedagem: valorHospedagemNum,
           valorConsumo: valorConsumoNum,
