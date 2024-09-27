@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container, ContainerBtn, ContainerInput, ContainerMain, ContainerOrcamento, Divisor, FieldGroup, Form, InputGroup } from "./style";
 
 interface IniciarViagem {
@@ -28,14 +28,6 @@ export default function IniciarViagem() {
   const [valorTotal, setValorTotal] = useState<string>("");
   const router = useRouter();
 
-  useEffect(() => {
-    const account: string | null = sessionStorage.getItem("remeberAccount");
-    if (account) {
-      setIdUser(account);
-      setIdUser("");
-    }
-  }, []);
-
   const handleSubmitViagem = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -60,8 +52,14 @@ export default function IniciarViagem() {
     const valorTotalCalculado = valorPassagemNum + valorHospedagemNum + valorConsumoNum;
     setValorTotal('R$ ' + valorTotalCalculado.toFixed(2));
 
+    const account = sessionStorage.getItem("rememberAccount");
+    if (account) {
+      setIdUser(account);}
+      
+    console.log(idUser)
+
     try {
-      const response = await fetch("http://localhost:8080/api/viagens/iniciar", {
+      const response = await fetch("http://localhost:8080/travel/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -222,7 +220,7 @@ export default function IniciarViagem() {
             <Divisor />
             <ContainerBtn>
               <span onClick={handleCancel}>Cancelar</span>
-              <button type="submit">Salvar Alterações</button>
+              <button type="submit">Criar Viagem</button>
             </ContainerBtn>
           </Form>
         </Container>
