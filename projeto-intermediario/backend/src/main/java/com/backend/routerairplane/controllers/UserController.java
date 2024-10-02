@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "*") // permitindo acesso do front ao back
 public class UserController {
 
     private final UserService userService;
@@ -27,9 +26,14 @@ public class UserController {
         return userService.verifyUser(email, senha);
     }
 
+    @GetMapping("/email")
+    public ResponseEntity<ApiResponse> userViewByEmail(@RequestParam String email) {
+        return userService.viewUserByEmail(email);
+    }
+
     @GetMapping("/id")
-    public ResponseEntity<ApiResponse> userId(@RequestParam String email) {
-        return userService.idUser(email);
+    public ResponseEntity<ApiResponse> userViewById(@RequestParam Long id) {
+        return userService.viewUserById(id);
     }
 
     @PostMapping("/create")
@@ -39,5 +43,14 @@ public class UserController {
         String senha = user.getSenha();
 
         return userService.createUser(nome, email, senha);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<ApiResponse> userUpdate(@RequestBody User user) {
+        String nome = user.getNome();
+        String email = user.getEmail();
+        String senha = user.getSenha();
+
+        return userService.updateUser(nome, email, senha);
     }
 }

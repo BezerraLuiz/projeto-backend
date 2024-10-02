@@ -4,6 +4,7 @@ import com.backend.routerairplane.models.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.*;
 
@@ -15,9 +16,10 @@ public class UserServiceImpl implements UserService {
     private final String passworddb = "MX8VGgRI1tUB";
 
     // querys
-    private final String select_user = "select id, nome, email, senha from users u where u.email = ?";
-    private final String select_user_id = "select id, email from users u where u.email = ?";
+    private final String select_user_email = "select id, nome, email, senha from users u where u.email = ?";
+    private final String select_user_id = "select id, nome, email, senha from users u where u.id = ?";
     private final String insert_user = "insert into users (nome, email, senha) values (?, ?, ?)";
+    private final String update_user = "update users u set nome = ?, email = ?, senha = ? where u.email = ?";
 
     @Override
     public ResponseEntity<ApiResponse> verifyUser(String email, String senha) {
@@ -25,7 +27,7 @@ public class UserServiceImpl implements UserService {
         String senhadb = null;
 
         try (Connection connection = DriverManager.getConnection(urldb, userdb, passworddb)) {
-            PreparedStatement ps = connection.prepareStatement(select_user);
+            PreparedStatement ps = connection.prepareStatement(select_user_email);
             ps.setString(1, email);
 
             ResultSet rs = ps.executeQuery();
@@ -46,19 +48,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse> idUser(String email) {
-        String id = null;
+    public ResponseEntity<ApiResponse> viewUserByEmail(String email) {
+        String iddb = null;
         String emaildb = null;
+        String nomedb = null;
+        String senhadb = null;
 
         try (Connection connection = DriverManager.getConnection(urldb, userdb, passworddb)) {
-            PreparedStatement ps = connection.prepareStatement(select_user_id);
+            PreparedStatement ps = connection.prepareStatement(select_user_email);
             ps.setString(1, email);
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                id = rs.getString("id");
+                iddb = rs.getString("id");
+                nomedb = rs.getString("nome");
                 emaildb = rs.getString("email");
+                senhadb = rs.getString("senha");
             }
 
             if (!email.equals(emaildb)) return new ResponseEntity<>(new ApiResponse("Usuário não encontrado!", false), HttpStatus.NOT_FOUND);
@@ -66,7 +72,35 @@ public class UserServiceImpl implements UserService {
             return new ResponseEntity<>(new ApiResponse("Usuário não encontrado!", false), HttpStatus.UNAUTHORIZED);
         }
 
-        return new ResponseEntity<>(new ApiResponse(id, true), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(iddb + " | " + nomedb + " | " + emaildb + " | " + senhadb, true), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse> viewUserById(Long id) {
+        Long iddb = null;
+        String emaildb = null;
+        String nomedb = null;
+        String senhadb = null;
+
+        try (Connection connection = DriverManager.getConnection(urldb, userdb, passworddb)) {
+            PreparedStatement ps = connection.prepareStatement(select_user_id);
+            ps.setLong(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                iddb = rs.getLong("id");
+                nomedb = rs.getString("nome");
+                emaildb = rs.getString("email");
+                senhadb = rs.getString("senha");
+            }
+
+            if (!id.equals(iddb)) return new ResponseEntity<>(new ApiResponse("Usuário não encontrado!", false), HttpStatus.NOT_FOUND);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(new ApiResponse("Usuário não encontrado!", false), HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(new ApiResponse(iddb + " | " + nomedb + " | " + emaildb + " | " + senhadb, true), HttpStatus.OK);
     }
 
     @Override
@@ -74,7 +108,7 @@ public class UserServiceImpl implements UserService {
         String emaildb = null;
 
         try (Connection connection = DriverManager.getConnection(urldb, userdb, passworddb)) {
-            PreparedStatement psSelect = connection.prepareStatement(select_user_id);
+            PreparedStatement psSelect = connection.prepareStatement(insert_user);
             psSelect.setString(1, email);
 
             ResultSet rs = psSelect.executeQuery();
@@ -106,6 +140,29 @@ public class UserServiceImpl implements UserService {
             }
         } catch (SQLException e) {
             return new ResponseEntity<>(new ApiResponse("Erro na verificação de usuário existente!", false), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse> updateUser(String nome, String email, String senha) {
+
+        try (Connection connection = DriverManager.getConnection(urldb, userdb, passworddb)) {
+            PreparedStatement ps = connection.prepareStatement(update_user);
+
+            ps.setString(1, nome);
+            ps.setString(2, email);
+            ps.setString(3, senha);
+            ps.setString(4, email);
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                return new ResponseEntity<>(new ApiResponse("Usuário atualizado com sucesso!", true), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(new ApiResponse("Erro ao criar usuário!", false), HttpStatus.BAD_REQUEST);
+            }
+        } catch (SQLException e) {
+            return new ResponseEntity<>(new ApiResponse("Erro na atualização do usuário!", false), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
