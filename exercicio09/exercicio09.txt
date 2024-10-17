@@ -1,0 +1,7 @@
+1. WAF (Web Application Firewall), ele depende de assinaturas para bloquear ameaças, precisando de camadas adicionais de segurança.
+
+2. Ataque de injeção. Um caso foi em 2017, na empresa Equifax, agência de crédito nos EUA que sofreu um ataque desses resultando na perda da confiança de seus clientes, multas e processos legais.
+
+3. Criptografia de dados (TLS/SSL) e autenticação multifator (MFA).
+
+4. Limitação de escopo com OAuth 2.0. Evitando roubo de tokens de autenticação, minimizando o impacto de um ataque.
