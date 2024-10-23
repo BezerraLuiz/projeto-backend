@@ -4,6 +4,7 @@ import com.example.demo.dtos.JogadorRequestDto;
 import com.example.demo.dtos.JogadorResponseDto;
 import com.example.demo.models.JogadorModel;
 import com.example.demo.services.JogadorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +16,7 @@ public class JogadorController {
     JogadorService jogadorService;
 
     @PostMapping("/jogadores")
-    public JogadorResponseDto insereJogador(@RequestBody JogadorRequestDto jogadorRequestDto) {
+    public JogadorResponseDto insereJogador(@RequestBody @Valid JogadorRequestDto jogadorRequestDto) {
         return jogadorService.insereJogador(jogadorRequestDto);
     }
 }
