@@ -2,7 +2,9 @@ package com.example.demo.services;
 
 import com.example.demo.dtos.JogadorRequestDto;
 import com.example.demo.dtos.JogadorResponseDto;
+import com.example.demo.mapper.JogadorMapper;
 import com.example.demo.models.JogadorModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,6 +14,9 @@ import java.util.Random;
 @Service
 public class JogadorService {
     List<JogadorModel> jogadores = new ArrayList<>();
+
+    @Autowired
+    JogadorMapper jogadorMapper;
 
     public JogadorResponseDto insereJogador(JogadorRequestDto jogadorRequestDto) {
         JogadorModel jogador = new JogadorModel();
@@ -27,9 +32,6 @@ public class JogadorService {
         jogadores.add(jogador);
 
         // Criar response
-        return new JogadorResponseDto(
-                jogador.getNick(),
-                jogador.getHabilidade()
-        );
+        return jogadorMapper.toDto(jogador);
     }
 }
